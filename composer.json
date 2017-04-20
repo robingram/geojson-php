@@ -1,0 +1,19 @@
+{
+  "name": "GeoJSON.php",
+  "description": "Convert JSON objects to GeoJSON",
+  "version": "0.0.1-alpha1",
+  "authors": [
+    {
+      "name": "Rob Ingram",
+      "email": "robert.ingram@ccc.govt.nz",
+      "role": "Developer"
+    }
+  ],
+  "require-dev": {
+    "phpspec/phpspec": "^3.0"
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "autoload": {"psr-0": {"": "src"}}
+}
