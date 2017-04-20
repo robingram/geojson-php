@@ -1,6 +1,6 @@
 <?php
 /**
- * Convert JSON objects to GeoJSON format
+ * Build "property" component of a GeoJSON feature
  */
 namespace GeoJSON;
 

@@ -5,6 +5,7 @@
 namespace GeoJSON;
 
 require_once 'PropertyBuilder.php';
+require_once 'GeometryBuilder.php';
 
 class Converter
 {
@@ -94,7 +95,7 @@ class Converter
   }
 
   /**
-   * Moves the user-specified geometry parameters under the `geom` key in 
+   * Moves the user-specified geometry parameters under the `geom` key in
    * param for easier access
    * @param  array $params User defined settings
    * @return array         Params with geometry shifted under `geom` key
@@ -117,7 +118,7 @@ class Converter
   }
 
   /**
-   * Adds fields which contain geometry data to geomAttrs
+   * Adds fields that contain geometry data to geomAttrs
    * @param array $params Geometry attributes
    */
   protected function setGeomAttrs($params)
@@ -136,16 +137,44 @@ class Converter
     }
   }
 
+  /**
+   * Translate the given item into a 'feature' element
+   * @param  array $item   Source data
+   * @param  array $params User defined parameters
+   * @return array         Object transformed into GeoJSON feature format based
+   *                       on parameters
+   */
   protected function getFeature($item, $params)
   {
     $feature = ['type' => 'Feature'];
-    $propBuilder = $this->getPropertyBuilder($params);
 
+    $geomBuilder = $this->getGeometryBuilder($params);
+    $feature['geometry'] = $geomBuilder->build($item);
+
+    $propBuilder = $this->getPropertyBuilder($params);
     $feature['properties'] = $propBuilder->build($item);
 
     return $feature;
   }
 
+  /**
+   * Get the class that will build the 'geometry' component of the feature
+   * @param  array $params           User defined parameters
+   * @return GeoJSON\GeometryBuilder
+   */
+  protected function getGeometryBuilder($params)
+  {
+    if (is_null($this->geometryBuilder)) {
+      $this->geometryBuilder = new GeometryBuilder($params);
+    }
+    return $this->geometryBuilder;
+  }
+
+  /**
+   * Get the class that will build the remaining properties of the feature
+   * @param  array $params           User defined parameters
+   * @return GeoJSON\PropertyBuilder
+   */
   protected function getPropertyBuilder($params)
   {
     if (is_null($this->propertyBuilder)) {
