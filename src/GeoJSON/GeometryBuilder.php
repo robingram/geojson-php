@@ -47,7 +47,12 @@ class GeometryBuilder
    * @return string|array       Geometry component of GeoJSON feature
    */
   protected function getLatLong($object, $type, $val) {
-      return ['type' => $type, 'coordinates' => [$object[$val[1]], $object[$val[0]]]];
+      return ['type' => $type,
+      'coordinates' => [
+          floatval($object[$val[1]]),
+          floatval($object[$val[0]])
+        ]
+      ];
   }
 
   /**
