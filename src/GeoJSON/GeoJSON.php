@@ -180,7 +180,7 @@ class Converter
    */
   protected function addOptionals($geoJson, $params) {
     if (isset($params['crs'])) {
-      $crsBuilder = $this->getCrsBuilder($params);
+      $crsBuilder = $this->getCrsBuilder($geoJson, $params);
       $geoJson['crs'] = $crsBuilder->build();
     }
 
@@ -229,10 +229,10 @@ class Converter
    * @param  array $params      User defined parameters
    * @return GeoJSON\CrsBuilder
    */
-  protected function getCrsBuilder($params)
+  protected function getCrsBuilder($geoJson, $params)
   {
     if (is_null($this->crsBuilder)) {
-      $this->crsBuilder = new CrsBuilder($params, $this->geomAttrs);
+      $this->crsBuilder = new CrsBuilder($geoJson, $params);
     }
     return $this->crsBuilder;
   }

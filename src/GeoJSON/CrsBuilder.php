@@ -34,7 +34,7 @@ class CrsBuilder
    */
   public function build()
   {
-    if ($this->checkCrs) {
+    if ($this->checkCrs()) {
       return $this->params['crs'];
     }
 
@@ -50,13 +50,14 @@ class CrsBuilder
   {
     if (!isset($this->params['crs'])) return false;
 
+    $crs = $this->params['crs'];
     if ('name' === $crs['type']) {
         if (isset($crs['properties']) && isset($crs['properties']['name'])) {
             return true;
         } else {
             throw new \Exception('Invalid CRS. Properties must contain "name" key');
         }
-    } else if ($crs.type === 'link') {
+    } else if ($crs['type'] === 'link') {
         if (isset($crs['properties']) && isset($crs['properties']['href']) && isset($crs['properties']['type'])) {
             return true;
         } else {
