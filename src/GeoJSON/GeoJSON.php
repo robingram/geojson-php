@@ -189,9 +189,9 @@ class Converter
     }
 
     if (isset($params['extraGlobal'])) {
-      $geojson['properties'] = [];
-      foreach ($params['extraGlobal'] as $key) {
-        $geojson['properties'][$key] = $params['extraGlobal'][$key];
+      $geoJson['properties'] = [];
+      foreach ($params['extraGlobal'] as $k => $v) {
+        $geoJson['properties'][$k] = $v;
       }
     }
 
