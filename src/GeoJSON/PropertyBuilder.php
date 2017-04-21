@@ -6,7 +6,16 @@ namespace GeoJSON;
 
 class PropertyBuilder
 {
+  /**
+   * User defined settings
+   * @var array
+   */
   protected $params;
+
+  /**
+   * List of geometry attribute types
+   * @var array
+   */
   protected $geomAttrs;
 
   /**

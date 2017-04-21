@@ -6,6 +6,10 @@ namespace GeoJSON;
 
 class GeometryBuilder
 {
+  /**
+   * User defined settings
+   * @var array
+   */
   protected $params;
 
   /**
@@ -25,9 +29,9 @@ class GeometryBuilder
   public function build($object)
   {
     foreach ($this->params['geom'] as $gtype => $val) {
-      if (is_array($val) and count($val) == 2) {
+      if (is_array($val) && isset($object[$val[0]]) && isset($object[$val[1]])) {
         return $this->getLatLong($object, $gtype, $val);
-      } elseif (is_string($gtype)) {
+      } elseif (is_string($val) && isset($object[$val])) {
         return $this->getCoords($object, $gtype, $val);
       }
     }
@@ -57,7 +61,7 @@ class GeometryBuilder
     if ('GeoJSON' == $type) {
       $geom = $object[$val];
     } else {
-      $geom = ['type' => $type, 'coordinates' => $val];
+      $geom = ['type' => $type, 'coordinates' => $object[$val]];
     }
     return $geom;
   }

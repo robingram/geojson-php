@@ -6,6 +6,7 @@ namespace GeoJSON;
 
 require_once 'PropertyBuilder.php';
 require_once 'GeometryBuilder.php';
+require_once 'CrsBuilder.php';
 
 class Converter
 {
@@ -44,6 +45,18 @@ class Converter
    */
   protected $propertyBuilder;
 
+  /**
+   * Geometry builder
+   * @var GeoJSON\GeometryBuilder
+   */
+  protected $geometryBuilder;
+
+  /**
+   * Crs builder
+   * @var GeoJSON\CrsBuilder
+   */
+  protected $crsBuilder;
+
   public function __construct($defaults = [])
   {
     $this->defaults = $defaults;
@@ -69,6 +82,8 @@ class Converter
     foreach ($objects as $object) {
       $geoJson['features'][] = $this->getFeature($object, $settings);
     }
+
+    $geoJson = $this->addOptionals($geoJson, $settings);
 
     $gj = json_encode($geoJson);
 
@@ -133,7 +148,7 @@ class Converter
     }
 
     if (count($this->geomAttrs) === 0) {
-      throw new Exception('No geometry attributes specified');
+      throw new \Exception('No geometry attributes specified');
     }
   }
 
@@ -155,6 +170,32 @@ class Converter
     $feature['properties'] = $propBuilder->build($item);
 
     return $feature;
+  }
+
+  /**
+   * Add optional elements to GeoJSON
+   * @param  array $geoJson Existing GeoJSON
+   * @param  array $params  User defined settings
+   * @return array          GeoJSON with added optional elements
+   */
+  protected function addOptionals($geoJson, $params) {
+    if (isset($params['crs'])) {
+      $crsBuilder = $this->getCrsBuilder($params);
+      $geoJson['crs'] = $crsBuilder->build();
+    }
+
+    if (isset($params['bbox'])) {
+      $geoJson['bbox'] = $params['bbox'];
+    }
+
+    if (isset($params['extraGlobal'])) {
+      $geojson['properties'] = [];
+      foreach ($params['extraGlobal'] as $key) {
+        $geojson['properties'][$key] = $params['extraGlobal'][$key];
+      }
+    }
+
+    return $geoJson;
   }
 
   /**
@@ -181,5 +222,18 @@ class Converter
       $this->propertyBuilder = new PropertyBuilder($params, $this->geomAttrs);
     }
     return $this->propertyBuilder;
+  }
+
+  /**
+   * Get a builder for optional CRS element of GeoJSON
+   * @param  array $params      User defined parameters
+   * @return GeoJSON\CrsBuilder
+   */
+  protected function getCrsBuilder($params)
+  {
+    if (is_null($this->crsBuilder)) {
+      $this->crsBuilder = new CrsBuilder($params, $this->geomAttrs);
+    }
+    return $this->crsBuilder;
   }
 }
