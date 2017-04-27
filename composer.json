@@ -10,7 +10,7 @@
     }
   ],
   "require-dev": {
-    "phpspec/phpspec": "^3.0"
+    "phpunit/phpunit": "^5.1"
   },
   "config": {
     "bin-dir": "bin"
