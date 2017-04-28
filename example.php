@@ -1,5 +1,5 @@
 <?php
-require_once 'src/GeoJSON/GeoJSON.php';
+require_once 'src/GeoJSON/Converter.php';
 
 $source = getSource();
 $sourceArr = json_decode($source, true);

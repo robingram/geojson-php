@@ -236,4 +236,28 @@ class Converter
     }
     return $this->crsBuilder;
   }
+
+    /**
+     * Gets the default parameters to be defined by the user.
+     *
+     * @return array
+     */
+    public function getDefaults()
+    {
+        return $this->defaults;
+    }
+
+    /**
+     * Sets the default parameters to be defined by the user.
+     *
+     * @param array $defaults the defaults
+     *
+     * @return self
+     */
+    public function setDefaults(array $defaults)
+    {
+        $this->defaults = $defaults;
+
+        return $this;
+    }
 }
