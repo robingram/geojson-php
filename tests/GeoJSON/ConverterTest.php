@@ -3,7 +3,7 @@
  * Test the main Converter class
  * @author  Rob Ingram <robert.ingram@ccc.govt.nz>
  */
-require 'src/GeoJSON/Converter.php';
+require_once 'src/GeoJSON/Converter.php';
 use PHPUnit\Framework\TestCase;
 
 class ConverterTest extends TestCase
