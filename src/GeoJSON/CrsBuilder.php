@@ -44,6 +44,10 @@ class CrsBuilder
     if (!isset($this->params['crs'])) return false;
 
     $crs = $this->params['crs'];
+    if (!isset($crs['type'])) {
+      throw new \Exception('Invalid CRS. Properties must contain "type" key');
+    }
+
     if ('name' === $crs['type']) {
         if (isset($crs['properties']) && isset($crs['properties']['name'])) {
             return true;
