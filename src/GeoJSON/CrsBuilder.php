@@ -7,12 +7,6 @@ namespace GeoJSON;
 class CrsBuilder
 {
   /**
-   * GeoJSON in array format
-   * @var array
-   */
-  protected $geoJson;
-
-  /**
    * User defined settings
    * @var array
    */
@@ -22,9 +16,8 @@ class CrsBuilder
    * Constructor
    * @param array $params    User defined parameters
    */
-  public function __construct($geoJson, $params = [])
+  public function __construct($params = [])
   {
-    $this->geoJson = $geoJson;
     $this->params = $params;
   }
 
